@@ -27,38 +27,35 @@
 
 /* servo motor => MG90S
 */
-
+#define F_CPU 16000000UL
 
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
-#include "Cube.h"
+//#include "Cube.h"
+#include "Stepper.h"
+#include "Servo.h"
 
-void Timer_init();
+void init();
 void Uart_Init();
 unsigned char Uart_Receive();
 void Uart_trans(unsigned char data);
 void Uart_trans_string(char *data);
 void readData();
+void motor_init();
 void cameraFunc();
 
 
 int main(void)
-{
-	/* servo */
-	DDRB = 0xFF;	// Timer (PB05, 06, 07 => OC1ABC) 
-	PORTB = 0x00;
-	DDRE = 0xFF;	// Timer (PE03 => OC3A)
-	PORTE = 0x00;
-	DDRC = 0xFF;	// StepMotor
-	
+{	
 	init();
 	
     while (1) 
     {
+		while(PIND0 != 1);
+		motor_init();
 		// cube_init();
-		while(Uart_Receive() != 'I'){
-			// 'I'가 들어올 때 까지 대기
+		while(Uart_Receive() != 'S'){// 'S'가 들어올 때 까지 대기
 		}
 		cameraFunc();
 		readData();	// 공식 받고 실행
@@ -66,29 +63,25 @@ int main(void)
     }
 }
 
-void Timer_init()
-{
-	// Timer/Counter 1, 3 (A,B,C / A) 사용
-	TCCR1A = (1 << COM1A1) | (1 << WGM11) | (1 << COM1B1) | (1<< COM1C1);	// Clear OCnA on Compare match, Fast PWM
-	TCCR1B = (1 <<WGM13) | (1 <<CS11) | (1 << CS10);	// 분주비 64
-	TCCR3A = (1 << COM3A1) | (1 << WGM31);
-	TCCR3B = (1 << WGM32) | (1 << WGM33) | (1 << CS31) | (1 << CS32)
-	ICR1 = 4999;
-	ICR3 = 4999;
-	OCR1A = 375;	// 0 dgree
-	OCR1B = 375;
-	OCR1C = 375;
-	OCR3A = 375;
-	TCNT1 = 0x00;
-	TCNT3 = 0x00;
-}
-
 void init()
 {
-	Timer_init()
-	Uart_Init()
+	/* servo */
+	DDRB = 0xFF;	// Timer (PB05, 06, 07 => OC1ABC) 
+	PORTB = 0x00;
+	DDRE = 0xFF;	// Timer (PE03 => OC3A)
+	PORTE = 0x00;
+	DDRC = 0xFF;	// StepMotor    7 6   5 4   3 2   1 0
+					//				d.s / d.s / d.s / d.s
+					//              L     B     R     F 
+	PORTC = 0x00;
+	DDRD = 0x00;	//스위치
+	
+	Timer_init();
+	Uart_Init();
 	sei();
 }
+
+
 
 void Uart_Init()
 {
@@ -110,9 +103,9 @@ void Uart_Receive_string(char *str)
 {
 	int i = 0;
 	for(int i = 0; Uart_Receive() != '\n'; i++){
-		str[i] = Uart_Receive()
+		str[i] = Uart_Receive();
 	}
-	str[i] = '\0'
+	str[i] = '\0';
 }
 void Uart_trans(unsigned char data)
 {
@@ -123,7 +116,7 @@ void Uart_trans(unsigned char data)
 void Uart_trans_string(char *data)
 {
 	for(int i = 0; data[i] == '\n'; i++)
-		Uart_trans(data[i])
+		Uart_trans(data[i]);
 }
 
 // 문자열을 읽고 해당하는 동작 수행
@@ -134,42 +127,27 @@ void readData()
 	
 	Uart_Receive_string(solution);
 	
-	for(int i = 0; solution[i] != '\n', i+= 2){
+	for(int i = 0; solution[i] != '\n'; i+= 2){
 		c1 = solution[i];
 		c2 = solution[i + 1];
 		
-		if (c1 == 'U' && c2 =='o')
-			U();
+		//if (c1 == 'U' && c2 =='o')
+		
 		//...
 	}
 }
 
+void motor_init()
+{
+	OCR1A = 375;
+	OCR1B = 375;
+	OCR1C = 375;
+	OCR3A = 375;
+}
+
 void cameraFunc()
 {
-	int i = 0;
-	while(1){
-		if(i == 5)
-			break;
-		if(Uart_Receive()=='I'){			
-			switch (i)
-			{
-				case 0:
-				// 그립 안보이게
-					i++;
-					break;
-				case 1:
-					i++;
-					break;
-				case 2:
-					i++;
-					break;
-				case 3:
-					i++;
-					break;
-				case 4:
-					i++
-					break;
-			}
-		}
-	}
+	
+	step_multi(F, B, -90);
+	
 }

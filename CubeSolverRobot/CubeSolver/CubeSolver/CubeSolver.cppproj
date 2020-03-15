@@ -155,7 +155,16 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="constant.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Servo.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Servo.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Stepper.c">

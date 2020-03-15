@@ -19,6 +19,6 @@ void step(int motor_num, float degree);
 void step_multi(int motor_num1, int motor_num2, float degree);
 void set_dir(int motor_num, int dir);
 void set_step(int motor_num, int step);
-
+void my_delay(double ms);
 
 #endif /* STEPPER_H_ */

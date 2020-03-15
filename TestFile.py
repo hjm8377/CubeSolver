@@ -1,14 +1,15 @@
-import copy
+import serial
+from time import sleep
+
+sol = 'XoYoXoYoYoUtFtRtBtLtLoUtLpFpUpFoLoUoLpBoUtBpUpBoUoBpUpLoUoLpUoRoUpRpUpFpUoFtUpFpUpLpUoLoUtRpUoRoUoBoUpBpUoLpUoLoUoFoUpFpFoRoUoRpUpFpUtFoRoUoRpUpRoUoRpUpFpFoRpFpLoFoRoFpLpUoRoUtRpUpRoUtLpUoRpUpLoYp'
 
 
-def sync(k):
-    k += 1
-    print("num", id(k), k)
-    return k
+try:
+    print(len(sol))
+    ser = serial.Serial(port='COM3', baudrate=9600)
+    sleep(2)
 
-a = 0
-print("a", id(a), a)
-a = sync(a)
-print("a", id(a), a)
-
-print(a)
+    ser.write(sol.encode('utf-8'))
+    sleep(1)
+except:
+    exit(1)

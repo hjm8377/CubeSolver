@@ -13,6 +13,8 @@ import serial
 import multiprocessing
 import numpy as np
 
+COM = 'COM4'
+
 
 def init(window):
     window.iconbitmap(default="src/cube.ico")
@@ -41,6 +43,15 @@ def start_(window, btn):
     c = ColorDetection.ColorDetection()
     CUBE = [[[] for _ in range(3)] for _ in range(6)]
     k = [0]
+
+    try:
+        ser = serial.Serial(port=COM, baudrate=9600)
+        sleep(2)
+        ser.write('S'.encode())
+        sleep(1)
+    except:
+        messagebox.showwarning("Error", "Can't Find Robot!")
+        # exit("Can't Find Robot")
 
     def show_frame():
         try:
@@ -72,11 +83,19 @@ def start_(window, btn):
         lmain.configure(image=imgtk)
         lmain.after(10, show_frame)
 
-    def next(num, cubie, detector):
+    def next_(num, cubie, detector):
         if num[0] < 6:
             cubie[num[0]] = copy.deepcopy(detector.color)
             num[0] += 1
             print(cubie)
+            try:
+                ser = serial.Serial(port=COM, baudrate=9600)
+                sleep(2)
+                ser.write('N'.encode())
+                sleep(1)
+            except:
+                messagebox.showwarning("Error", "Can't Find Robot!")
+                # exit("Can't Find Robot")
         if num[0] == 6:
             cap.release()
             btn_next.config(text="완료", command=lambda: exit_(k))
@@ -104,8 +123,9 @@ def start_(window, btn):
     frame_btn = Frame(top, bg="white")
     frame_btn.grid(row=1)
 
-    btn_next = Button(frame_btn, width=10, text="next", fg="green", bg="white", relief="raised", overrelief="flat", command=lambda: next(k, CUBE, c))
+    btn_next = Button(frame_btn, width=10, text="next", fg="green", bg="white", relief="raised", overrelief="flat", command=lambda: next_(k, CUBE, c))
     btn_next.grid(row=0, column=0)
+    # top.bind("<Key>", lambda: next_(k, CUBE, c))
 
     btn_exit = Button(frame_btn, width=10, text="exit", fg="red", bg="white", relief="raised", overrelief="flat", command=lambda: exit_(k))
     btn_exit.grid(row=0, column=1, sticky="w")
@@ -142,9 +162,9 @@ def solution_method(z):
     print(sol)
 
     try:
-        ser = serial.Serial('COM2', 115200)
+        ser = serial.Serial(port=COM, baudrate=9600)
         sleep(2)
-        ser.write(sol)
+        ser.write(sol.encode())
         sleep(1)
     except:
         messagebox.showwarning("Error", "Can't Find Robot!")

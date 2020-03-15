@@ -86,11 +86,11 @@ class ColorDetection:
                     cv2.rectangle(frame, (500 + j * 100, 250 + i * 100), (550 + j * 100, 300 + i * 100), color_to_rgb('g'), -1)
                     cv2.putText(frame, "G", (525 + j * 100, 275 + i * 100), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0))
                     self.color[i][j] = 'g'
-                elif (150 < self.hue_value[i][j] <= 180 or 0 <= self.hue_value[i][j] <= 2) and self.s_value[i][j] > 70:
+                elif (150 < self.hue_value[i][j] <= 180 or 0 <= self.hue_value[i][j] <= 9) and self.s_value[i][j] > 70:
                     cv2.rectangle(frame, (500 + j * 100, 250 + i * 100), (550 + j * 100, 300 + i * 100), color_to_rgb('r'), -1)
                     cv2.putText(frame, "R", (525 + j * 100, 275 + i * 100), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0))
                     self.color[i][j] = 'r'
-                elif 2 < self.hue_value[i][j] <= 18 and self.s_value[i][j] > 70:
+                elif 9 < self.hue_value[i][j] <= 18 and self.s_value[i][j] > 70:
                     cv2.rectangle(frame, (500 + j * 100, 250 + i * 100), (550 + j * 100, 300 + i * 100), color_to_rgb('o'), -1)
                     cv2.putText(frame, "O", (525 + j * 100, 275 + i * 100), cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0))
                     self.color[i][j] = 'o'
