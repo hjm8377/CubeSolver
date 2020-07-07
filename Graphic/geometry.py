@@ -33,7 +33,7 @@ axis_colors = (
 '''
 
 
-center_pieces = [
+self.center_pieces = [
     # Front 0
     [[-1, -1, 3],
      [-1, 1, 3],
@@ -98,7 +98,7 @@ center_pieces = [
      [1, -3, -1]]
 ]
 
-edge_pieces = [
+self.edge_pieces = [
     # X
     # 0
     [[[-1, -3, 3],
@@ -224,7 +224,7 @@ edge_pieces = [
 
 ]
 
-corner_pieces = [
+self.corner_pieces = [
     # Front
     # 0
     [[-3, -3, 3],
@@ -377,7 +377,7 @@ cube_verts = (
     (3.0, -3.0, -3.0)  # 7
 )
 
-cube_edges = (
+self.cube_edges = (
     (0, 1),
     (0, 3),
     (0, 4),
@@ -405,7 +405,7 @@ cube_edges = (
  0___________3/
 '''
 
-cube_surfaces = (
+self.cube_surfaces = (
     [0, 1, 2, 3],  # Front 0
     [4, 5, 1, 0],  # Left 1
     [7, 6, 5, 4],  # Back 2
