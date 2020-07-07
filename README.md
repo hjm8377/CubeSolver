@@ -31,11 +31,11 @@ Python 3.x:
 
 ### Solving Progress
 #### Color Detection
-![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opencv%20capture.PNG)
+![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opencvcapture.png)
 Cube color analyzing using OpenCV-Python
 
 #### Create Planar figure
-![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opencv%20planar.PNG)
+![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opencvplanar.PNG)
 Create Cube's planar figure to take a look the color is well recognized. (It's not the complete planar figure)
 
 #### 3D Cube 
