@@ -12,20 +12,21 @@ def print_cube(arr):
 
 def draw_cube(arr):
     # 빈화면
+    padding = 10
     width = 520
     height = 405
     bpp = 3
 
     img = np.zeros((height, width, bpp), np.uint8)
 
-    x, y = 120, 30
+    x, y = 120 + padding, 30
     draw_square(img, x, y, arr[0])
 
     for i in range(4):
-        x, y = 30 + i * 90, 120
+        x, y = 30 + i * 90 + padding * i, 120 + padding
         draw_square(img, x, y, arr[i + 1])
 
-    x, y = 120, 210
+    x, y = 120 + padding, 210 + padding * 2
     draw_square(img, x, y, arr[5])
 
     return img

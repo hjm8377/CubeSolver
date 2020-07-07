@@ -27,6 +27,23 @@ class Rotation:
         arr[2][1] = arr[1][0]
         arr[1][0] = tmp
 
+    @staticmethod
+    def change_face(cube, i, j):
+        # i면과 j면 맞바꾸기
+        tmp = cube[i]
+        cube[i] = cube[j]
+        cube[j] = tmp
+
+    @staticmethod
+    def center_color(arr):
+        return arr[1][1]
+
+    @staticmethod
+    def center_num(cube, color):
+        for i in range(6):
+            if cube[i][1][1] == color:
+                return i
+
     def U(self, cube):
         self.clockwise(cube[0])
         tmp = cube[1][0][0], cube[1][0][1], cube[1][0][2]
@@ -210,3 +227,14 @@ class Rotation:
         else:
             print("move error")
             exit(120)
+
+
+def setface(CUBE):
+    flag = [[[] for _ in range(3)] for _ in range(6)]
+    for i in range(3):
+        for j in range(3):
+            for k in range(3):
+                flag[i][j][k] = 0
+    cube = CUBE
+    
+    print(cube)
