@@ -2,7 +2,6 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
-import pygame
 from pygame.locals import *
 
 from Graphic.const import *
@@ -10,6 +9,8 @@ from Graphic.quat import *
 from Graphic.SetCaption import *
 
 from Stack.Stack import *
+
+import copy
 
 moves = ''
 
@@ -21,24 +22,26 @@ class Cubie:
         self.width = 800
         self.height = 600
         self.size = (self.width, self.height)
-        self.COLOR = COLOR
+        self.COLOR = copy.deepcopy(COLOR)
         self.mode = mode
         self.running = True
-        self.corner_pieces = corner_pieces
-        self.edge_pieces = edge_pieces
-        self.center_pieces = center_pieces
-        self.cube_surfaces = cube_surfaces
-        self.steps = steps
+        self.corner_pieces = copy.deepcopy(corner_pieces)
+        self.edge_pieces = copy.deepcopy(edge_pieces)
+        self.center_pieces = copy.deepcopy(center_pieces)
+        self.cube_surfaces = copy.deepcopy(cube_surfaces)
+        self.cube_edges = copy.deepcopy(cube_edges)
+        self.edges = copy.deepcopy(edges)
+        self.steps = copy.deepcopy(steps)
         self.sum_for_cap = 0
 
         if self.steps is not None:
-            self.white_cross = len(steps[1])
-            self.first_step = len(steps[2])
-            self.second_step = len(steps[3])
-            self.yellow_cross = len(steps[4])
-            self.yellow_face = len(steps[5])
-            self.third_corner = len(steps[6])
-            self.third_edge = len(steps[7])
+            self.white_cross = len(self.steps[1])
+            self.first_step = len(self.steps[2])
+            self.second_step = len(self.steps[3])
+            self.yellow_cross = len(self.steps[4])
+            self.yellow_face = len(self.steps[5])
+            self.third_corner = len(self.steps[6])
+            self.third_edge = len(self.steps[7])
             self.caption = SetCaption(self.white_cross, self.first_step, self.second_step, self.yellow_cross,
                                       self.yellow_face, self.third_corner, self.third_edge)
 
@@ -85,17 +88,17 @@ class Cubie:
         glColor3fv((0.0, 0.0, 0.0))
         # glColor3fv((1.0, 1.0, 1.0))
 
-        for axis in edge_pieces:
+        for axis in self.edge_pieces:
             for piece in axis:
-                for edge in cube_edges:
+                for edge in self.cube_edges:
                     for vertex in edge:
                         glVertex3fv(piece[vertex])
-        for piece in center_pieces:
-            for edge in cube_edges:
+        for piece in self.center_pieces:
+            for edge in self.cube_edges:
                 for vertex in edge:
                     glVertex3fv(piece[vertex])
-        for piece in corner_pieces:
-            for edge in cube_edges:
+        for piece in self.corner_pieces:
+            for edge in self.cube_edges:
                 for vertex in edge:
                     glVertex3fv(piece[vertex])
         glEnd()
@@ -109,33 +112,34 @@ class Cubie:
         glBegin(GL_QUADS)
         # up
         glColor3fv(color_to_rgb(self.COLOR[0][1][1]))
+        print(self.corner_pieces[4][1])
         for i in [5, 6, 2, 1]:
-            glVertex3fv(center_pieces[4][i])
+            glVertex3fv(self.center_pieces[4][i])
 
         # left
         glColor3fv(color_to_rgb(self.COLOR[1][1][1]))
         for i in [0, 1, 5, 4]:
-            glVertex3fv(center_pieces[1][i])
+            glVertex3fv(self.center_pieces[1][i])
 
         # front
         glColor3fv(color_to_rgb(self.COLOR[2][1][1]))
         for i in [0, 1, 2, 3]:
-            glVertex3fv(center_pieces[0][i])
+            glVertex3fv(self.center_pieces[0][i])
 
         # right
         glColor3fv(color_to_rgb(self.COLOR[3][1][1]))
         for i in [6, 7, 3, 2]:
-            glVertex3fv(center_pieces[3][i])
+            glVertex3fv(self.center_pieces[3][i])
 
         # back
         glColor3fv(color_to_rgb(self.COLOR[4][1][1]))
         for i in [4, 5, 6, 7]:
-            glVertex3fv(center_pieces[2][i])
+            glVertex3fv(self.center_pieces[2][i])
 
         # down
         glColor3fv(color_to_rgb(self.COLOR[5][1][1]))
         for i in [0, 3, 7, 4]:
-            glVertex3fv(center_pieces[5][i])
+            glVertex3fv(self.center_pieces[5][i])
         glEnd()
 
         # edge block
@@ -143,98 +147,98 @@ class Cubie:
         # 0
         glColor3fv(color_to_rgb(self.COLOR[0][0][1]))
         for i in [1, 2, 6, 5]:
-            glVertex3fv(edge_pieces[0][2][i])
+            glVertex3fv(self.edge_pieces[0][2][i])
         glColor3fv(color_to_rgb(self.COLOR[4][0][1]))
         for i in [4, 5, 6, 7]:
-            glVertex3fv(edge_pieces[0][2][i])
+            glVertex3fv(self.edge_pieces[0][2][i])
 
         # 1
         glColor3fv(color_to_rgb(self.COLOR[0][1][0]))
         for i in [1, 2, 6, 5]:
-            glVertex3fv(edge_pieces[2][1][i])
+            glVertex3fv(self.edge_pieces[2][1][i])
         glColor3fv(color_to_rgb(self.COLOR[1][0][1]))
         for i in [0, 1, 5, 4]:
-            glVertex3fv(edge_pieces[2][1][i])
+            glVertex3fv(self.edge_pieces[2][1][i])
 
         # 2
         glColor3fv(color_to_rgb(self.COLOR[0][2][1]))
         for i in [1, 2, 6, 5]:
-            glVertex3fv(edge_pieces[0][1][i])
+            glVertex3fv(self.edge_pieces[0][1][i])
         glColor3fv(color_to_rgb(self.COLOR[2][0][1]))
         for i in [0, 1, 2, 3]:
-            glVertex3fv(edge_pieces[0][1][i])
+            glVertex3fv(self.edge_pieces[0][1][i])
 
         # 3
         glColor3fv(color_to_rgb(self.COLOR[0][1][2]))
         for i in [1, 2, 6, 5]:
-            glVertex3fv(edge_pieces[2][2][i])
+            glVertex3fv(self.edge_pieces[2][2][i])
         glColor3fv(color_to_rgb(self.COLOR[3][0][1]))
         for i in [2, 3, 7, 6]:
-            glVertex3fv(edge_pieces[2][2][i])
+            glVertex3fv(self.edge_pieces[2][2][i])
 
         # 4
         glColor3fv(color_to_rgb(self.COLOR[4][1][2]))
         for i in [4, 5, 6, 7]:
-            glVertex3fv(edge_pieces[1][1][i])
+            glVertex3fv(self.edge_pieces[1][1][i])
         glColor3fv(color_to_rgb(self.COLOR[1][1][0]))
         for i in [0, 1, 5, 4]:
-            glVertex3fv(edge_pieces[1][1][i])
+            glVertex3fv(self.edge_pieces[1][1][i])
 
         # 5
         glColor3fv(color_to_rgb(self.COLOR[1][1][2]))
         for i in [0, 1, 5, 4]:
-            glVertex3fv(edge_pieces[1][0][i])
+            glVertex3fv(self.edge_pieces[1][0][i])
         glColor3fv(color_to_rgb(self.COLOR[2][1][0]))
         for i in [0, 1, 2, 3]:
-            glVertex3fv(edge_pieces[1][0][i])
+            glVertex3fv(self.edge_pieces[1][0][i])
 
         # 6
         glColor3fv(color_to_rgb(self.COLOR[2][1][2]))
         for i in [0, 1, 2, 3]:
-            glVertex3fv(edge_pieces[1][3][i])
+            glVertex3fv(self.edge_pieces[1][3][i])
         glColor3fv(color_to_rgb(self.COLOR[3][1][0]))
         for i in [2, 3, 7, 6]:
-            glVertex3fv(edge_pieces[1][3][i])
+            glVertex3fv(self.edge_pieces[1][3][i])
 
         # 7
         glColor3fv(color_to_rgb(self.COLOR[3][1][2]))
         for i in [2, 3, 7, 6]:
-            glVertex3fv(edge_pieces[1][2][i])
+            glVertex3fv(self.edge_pieces[1][2][i])
         glColor3fv(color_to_rgb(self.COLOR[4][1][0]))
         for i in [4, 5, 6, 7]:
-            glVertex3fv(edge_pieces[1][2][i])
+            glVertex3fv(self.edge_pieces[1][2][i])
 
         # 8
         glColor3fv(color_to_rgb(self.COLOR[4][2][1]))
         for i in [4, 5, 6, 7]:
-            glVertex3fv(edge_pieces[0][3][i])
+            glVertex3fv(self.edge_pieces[0][3][i])
         glColor3fv(color_to_rgb(self.COLOR[5][2][1]))
         for i in [0, 3, 7, 4]:
-            glVertex3fv(edge_pieces[0][3][i])
+            glVertex3fv(self.edge_pieces[0][3][i])
 
         # 9
         glColor3fv(color_to_rgb(self.COLOR[1][2][1]))
         for i in [0, 1, 5, 4]:
-            glVertex3fv(edge_pieces[2][0][i])
+            glVertex3fv(self.edge_pieces[2][0][i])
         glColor3fv(color_to_rgb(self.COLOR[5][1][0]))
         for i in [0, 3, 7, 4]:
-            glVertex3fv(edge_pieces[2][0][i])
+            glVertex3fv(self.edge_pieces[2][0][i])
 
         # 10
         glColor3fv(color_to_rgb(self.COLOR[2][2][1]))
         for i in [0, 1, 2, 3]:
-            glVertex3fv(edge_pieces[0][0][i])
+            glVertex3fv(self.edge_pieces[0][0][i])
         glColor3fv(color_to_rgb(self.COLOR[5][0][1]))
         for i in [0, 3, 7, 4]:
-            glVertex3fv(edge_pieces[0][0][i])
+            glVertex3fv(self.edge_pieces[0][0][i])
 
         # 11
         glColor3fv(color_to_rgb(self.COLOR[3][2][1]))
         for i in [2, 3, 7, 6]:
-            glVertex3fv(edge_pieces[2][3][i])
+            glVertex3fv(self.edge_pieces[2][3][i])
         glColor3fv(color_to_rgb(self.COLOR[5][1][2]))
         for i in [0, 3, 7, 4]:
-            glVertex3fv(edge_pieces[2][3][i])
+            glVertex3fv(self.edge_pieces[2][3][i])
         glEnd()
 
         # corner block
@@ -242,90 +246,90 @@ class Cubie:
         # 0
         glColor3fv(color_to_rgb(self.COLOR[5][0][0]))
         for i in [0, 3, 7, 4]:
-            glVertex3fv(corner_pieces[0][i])
+            glVertex3fv(self.corner_pieces[0][i])
         glColor3fv(color_to_rgb(self.COLOR[1][2][2]))
         for i in [0, 1, 5, 4]:
-            glVertex3fv(corner_pieces[0][i])
+            glVertex3fv(self.corner_pieces[0][i])
         glColor3fv(color_to_rgb(self.COLOR[2][2][0]))
         for i in [0, 1, 2, 3]:
-            glVertex3fv(corner_pieces[0][i])
+            glVertex3fv(self.corner_pieces[0][i])
 
         # 1
         glColor3fv(color_to_rgb(self.COLOR[0][2][0]))
         for i in [1, 2, 6, 5]:
-            glVertex3fv(corner_pieces[1][i])
+            glVertex3fv(self.corner_pieces[1][i])
         glColor3fv(color_to_rgb(self.COLOR[1][0][2]))
         for i in [0, 1, 5, 4]:
-            glVertex3fv(corner_pieces[1][i])
+            glVertex3fv(self.corner_pieces[1][i])
         glColor3fv(color_to_rgb(self.COLOR[2][0][0]))
         for i in [0, 1, 2, 3]:
-            glVertex3fv(corner_pieces[1][i])
+            glVertex3fv(self.corner_pieces[1][i])
 
         # 2
         glColor3fv(color_to_rgb(self.COLOR[0][2][2]))
         for i in [1, 2, 6, 5]:
-            glVertex3fv(corner_pieces[2][i])
+            glVertex3fv(self.corner_pieces[2][i])
         glColor3fv(color_to_rgb(self.COLOR[2][0][2]))
         for i in [0, 1, 2, 3]:
-            glVertex3fv(corner_pieces[2][i])
+            glVertex3fv(self.corner_pieces[2][i])
         glColor3fv(color_to_rgb(self.COLOR[3][0][0]))
         for i in [3, 2, 6, 7]:
-            glVertex3fv(corner_pieces[2][i])
+            glVertex3fv(self.corner_pieces[2][i])
 
         # 3
         glColor3fv(color_to_rgb(self.COLOR[5][0][2]))
         for i in [0, 3, 7, 4]:
-            glVertex3fv(corner_pieces[3][i])
+            glVertex3fv(self.corner_pieces[3][i])
         glColor3fv(color_to_rgb(self.COLOR[3][2][0]))
         for i in [3, 2, 6, 7]:
-            glVertex3fv(corner_pieces[3][i])
+            glVertex3fv(self.corner_pieces[3][i])
         glColor3fv(color_to_rgb(self.COLOR[2][2][2]))
         for i in [0, 1, 2, 3]:
-            glVertex3fv(corner_pieces[3][i])
+            glVertex3fv(self.corner_pieces[3][i])
 
         # 4
         glColor3fv(color_to_rgb(self.COLOR[5][2][0]))
         for i in [0, 3, 7, 4]:
-            glVertex3fv(corner_pieces[4][i])
+            glVertex3fv(self.corner_pieces[4][i])
         glColor3fv(color_to_rgb(self.COLOR[1][2][0]))
         for i in [0, 1, 5, 4]:
-            glVertex3fv(corner_pieces[4][i])
+            glVertex3fv(self.corner_pieces[4][i])
         glColor3fv(color_to_rgb(self.COLOR[4][2][2]))
         for i in [4, 5, 6, 7]:
-            glVertex3fv(corner_pieces[4][i])
+            glVertex3fv(self.corner_pieces[4][i])
 
         # 5
         glColor3fv(color_to_rgb(self.COLOR[0][0][0]))
         for i in [1, 2, 6, 5]:
-            glVertex3fv(corner_pieces[5][i])
+            glVertex3fv(self.corner_pieces[5][i])
         glColor3fv(color_to_rgb(self.COLOR[1][0][0]))
         for i in [0, 1, 5, 4]:
-            glVertex3fv(corner_pieces[5][i])
+            glVertex3fv(self.corner_pieces[5][i])
         glColor3fv(color_to_rgb(self.COLOR[4][0][2]))
         for i in [4, 5, 6, 7]:
-            glVertex3fv(corner_pieces[5][i])
+            glVertex3fv(self.corner_pieces[5][i])
 
         # 6
         glColor3fv(color_to_rgb(self.COLOR[0][0][2]))
         for i in [1, 2, 6, 5]:
-            glVertex3fv(corner_pieces[6][i])
+            glVertex3fv(self.corner_pieces[6][i])
         glColor3fv(color_to_rgb(self.COLOR[3][0][2]))
         for i in [2, 3, 7, 6]:
-            glVertex3fv(corner_pieces[6][i])
+            glVertex3fv(self.corner_pieces[6][i])
         glColor3fv(color_to_rgb(self.COLOR[4][0][0]))
         for i in [4, 5, 6, 7]:
-            glVertex3fv(corner_pieces[6][i])
+            glVertex3fv(self.corner_pieces[6][i])
 
         # 7
         glColor3fv(color_to_rgb(self.COLOR[5][2][2]))
         for i in [0, 3, 7, 4]:
-            glVertex3fv(corner_pieces[7][i])
+            glVertex3fv(self.corner_pieces[7][i])
         glColor3fv(color_to_rgb(self.COLOR[3][2][2]))
         for i in [2, 3, 7, 6]:
-            glVertex3fv(corner_pieces[7][i])
+            glVertex3fv(self.corner_pieces[7][i])
         glColor3fv(color_to_rgb(self.COLOR[4][2][0]))
         for i in [4, 5, 6, 7]:
-            glVertex3fv(corner_pieces[7][i])
+            glVertex3fv(self.corner_pieces[7][i])
 
         glEnd()
 
@@ -343,8 +347,8 @@ class Cubie:
 
         for i in range(len(edge_black_pat)):
             for face in edge_black_pat[i]:
-                for piece in edge_pieces[i]:
-                    for vertex in cube_surfaces[face]:
+                for piece in self.edge_pieces[i]:
+                    for vertex in self.cube_surfaces[face]:
                         glVertex3fv(piece[vertex])
 
         corner_color_pat = [
@@ -372,13 +376,13 @@ class Cubie:
         for i in range(len(corner_color_pat)):
             for face in corner_color_pat[i]:
                 glColor3fv(cube_colors[face])
-                for vertex in cube_surfaces[face]:
-                    glVertex3fv(corner_pieces[i][vertex])
+                for vertex in self.cube_surfaces[face]:
+                    glVertex3fv(self.corner_pieces[i][vertex])
         glColor3fv((0, 0, 0))
         for i in range(len(corner_black_pat)):
             for face in corner_black_pat[i]:
-                for vertex in cube_surfaces[face]:
-                    glVertex3fv(corner_pieces[i][vertex])
+                for vertex in self.cube_surfaces[face]:
+                    glVertex3fv(self.corner_pieces[i][vertex])
 
         glEnd()
 
@@ -397,7 +401,7 @@ class Cubie:
                 j += 1
             i += 1
 
-        for color, surface, face in zip(cube_colors, self.cube_surfaces, edges):
+        for color, surface, face in zip(cube_colors, self.cube_surfaces, self.edges):
             glColor3fv(color)
             for piece in face:
                 for vertex in surface:
@@ -445,13 +449,13 @@ class Cubie:
         for i in range(len(corner_color_pat)):
             for face in corner_color_pat[i]:
                 glColor3fv(cube_colors[face])
-                for vertex in cube_surfaces[face]:
-                    glVertex3fv(corner_pieces[i][vertex])
+                for vertex in self.cube_surfaces[face]:
+                    glVertex3fv(self.corner_pieces[i][vertex])
         glColor3fv((0, 0, 0))
         for i in range(len(corner_black_pat)):
             for face in corner_black_pat[i]:
-                for vertex in cube_surfaces[face]:
-                    glVertex3fv(corner_pieces[i][vertex])
+                for vertex in self.cube_surfaces[face]:
+                    glVertex3fv(self.corner_pieces[i][vertex])
 
         glEnd()
 
@@ -514,9 +518,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[0][i] = z_rot(center_pieces[0][i], theta)
+                                    self.center_pieces[0][i] = z_rot(self.center_pieces[0][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -527,7 +531,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = z_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[2] < 0:
@@ -551,9 +555,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[1][i] = x_rot(center_pieces[1][i], theta)
+                                    self.center_pieces[1][i] = x_rot(self.center_pieces[1][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -564,7 +568,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = x_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[0] > 0:
@@ -589,9 +593,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[2][i] = z_rot(center_pieces[2][i], theta)
+                                    self.center_pieces[2][i] = z_rot(self.center_pieces[2][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -602,7 +606,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = z_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[2] > 0:
@@ -627,9 +631,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[3][i] = x_rot(center_pieces[3][i], theta)
+                                    self.center_pieces[3][i] = x_rot(self.center_pieces[3][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -640,7 +644,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = x_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[0] < 0:
@@ -665,9 +669,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[4][i] = y_rot(center_pieces[4][i], theta)
+                                    self.center_pieces[4][i] = y_rot(self.center_pieces[4][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -678,7 +682,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = y_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[1] < 0:
@@ -703,9 +707,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[5][i] = y_rot(center_pieces[5][i], theta)
+                                    self.center_pieces[5][i] = y_rot(self.center_pieces[5][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -716,7 +720,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = y_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[1] > 0:
@@ -740,12 +744,12 @@ class Cubie:
                             for x in range(theta_inc):
                                 for i in range(8):
                                     for j in range(6):
-                                        center_pieces[j][i] = x_rot(center_pieces[j][i], theta)
+                                        self.center_pieces[j][i] = x_rot(self.center_pieces[j][i], theta)
                                     for k in range(8):
-                                        corner_pieces[k][i] = x_rot(corner_pieces[k][i], theta)
+                                        self.corner_pieces[k][i] = x_rot(self.corner_pieces[k][i], theta)
                                     for l in range(4):
                                         for m in range(3):
-                                            edge_pieces[m][l][i] = x_rot(edge_pieces[m][l][i], theta)
+                                            self.edge_pieces[m][l][i] = x_rot(self.edge_pieces[m][l][i], theta)
 
                                 update()
                             self.stk1.pop()
@@ -761,12 +765,12 @@ class Cubie:
                             for x in range(theta_inc):
                                 for i in range(8):
                                     for j in range(6):
-                                        center_pieces[j][i] = y_rot(center_pieces[j][i], theta)
+                                        self.center_pieces[j][i] = y_rot(self.center_pieces[j][i], theta)
                                     for k in range(8):
-                                        corner_pieces[k][i] = y_rot(corner_pieces[k][i], theta)
+                                        self.corner_pieces[k][i] = y_rot(self.corner_pieces[k][i], theta)
                                     for l in range(4):
                                         for m in range(3):
-                                            edge_pieces[m][l][i] = y_rot(edge_pieces[m][l][i], theta)
+                                            self.edge_pieces[m][l][i] = y_rot(self.edge_pieces[m][l][i], theta)
 
                                 update()
                             self.stk1.pop()
@@ -793,9 +797,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[0][i] = z_rot(center_pieces[0][i], theta)
+                                    self.center_pieces[0][i] = z_rot(self.center_pieces[0][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -806,7 +810,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = z_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[2] < 0:
@@ -830,9 +834,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[1][i] = x_rot(center_pieces[1][i], theta)
+                                    self.center_pieces[1][i] = x_rot(self.center_pieces[1][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -843,7 +847,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = x_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[0] > 0:
@@ -868,9 +872,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[2][i] = z_rot(center_pieces[2][i], theta)
+                                    self.center_pieces[2][i] = z_rot(self.center_pieces[2][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -881,7 +885,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = z_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[2] > 0:
@@ -906,9 +910,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[3][i] = x_rot(center_pieces[3][i], theta)
+                                    self.center_pieces[3][i] = x_rot(self.center_pieces[3][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -919,7 +923,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = x_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[0] < 0:
@@ -944,9 +948,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[4][i] = y_rot(center_pieces[4][i], theta)
+                                    self.center_pieces[4][i] = y_rot(self.center_pieces[4][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -957,7 +961,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = y_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[1] < 0:
@@ -982,9 +986,9 @@ class Cubie:
 
                             for x in range(theta_inc):
                                 for i in range(8):
-                                    center_pieces[5][i] = y_rot(center_pieces[5][i], theta)
+                                    self.center_pieces[5][i] = y_rot(self.center_pieces[5][i], theta)
 
-                                for axis in edge_pieces:
+                                for axis in self.edge_pieces:
                                     for piece in axis:
                                         flag = True
                                         for vertex in piece:
@@ -995,7 +999,7 @@ class Cubie:
                                             for i in range(8):
                                                 piece[i] = y_rot(piece[i], theta)
 
-                                for piece in corner_pieces:
+                                for piece in self.corner_pieces:
                                     flag = True
                                     for vertex in piece:
                                         if vertex[1] > 0:
@@ -1019,12 +1023,12 @@ class Cubie:
                             for x in range(theta_inc):
                                 for i in range(8):
                                     for j in range(6):
-                                        center_pieces[j][i] = x_rot(center_pieces[j][i], theta)
+                                        self.center_pieces[j][i] = x_rot(self.center_pieces[j][i], theta)
                                     for k in range(8):
-                                        corner_pieces[k][i] = x_rot(corner_pieces[k][i], theta)
+                                        self.corner_pieces[k][i] = x_rot(self.corner_pieces[k][i], theta)
                                     for l in range(4):
                                         for m in range(3):
-                                            edge_pieces[m][l][i] = x_rot(edge_pieces[m][l][i], theta)
+                                            self.edge_pieces[m][l][i] = x_rot(self.edge_pieces[m][l][i], theta)
 
                                 update()
                             self.stk2.pop()
@@ -1040,12 +1044,12 @@ class Cubie:
                             for x in range(theta_inc):
                                 for i in range(8):
                                     for j in range(6):
-                                        center_pieces[j][i] = y_rot(center_pieces[j][i], theta)
+                                        self.center_pieces[j][i] = y_rot(self.center_pieces[j][i], theta)
                                     for k in range(8):
-                                        corner_pieces[k][i] = y_rot(corner_pieces[k][i], theta)
+                                        self.corner_pieces[k][i] = y_rot(self.corner_pieces[k][i], theta)
                                     for l in range(4):
                                         for m in range(3):
-                                            edge_pieces[m][l][i] = y_rot(edge_pieces[m][l][i], theta)
+                                            self.edge_pieces[m][l][i] = y_rot(self.edge_pieces[m][l][i], theta)
 
                                 update()
                             self.stk2.pop()
@@ -1079,9 +1083,9 @@ class Cubie:
 
                         for x in range(theta_inc):
                             for i in range(8):
-                                center_pieces[0][i] = z_rot(center_pieces[0][i], theta)
+                                self.center_pieces[0][i] = z_rot(self.center_pieces[0][i], theta)
 
-                            for axis in edge_pieces:
+                            for axis in self.edge_pieces:
                                 for piece in axis:
                                     flag = True
                                     for vertex in piece:
@@ -1092,7 +1096,7 @@ class Cubie:
                                         for i in range(8):
                                             piece[i] = z_rot(piece[i], theta)
 
-                            for piece in corner_pieces:
+                            for piece in self.corner_pieces:
                                 flag = True
                                 for vertex in piece:
                                     if vertex[2] < 0:
@@ -1112,9 +1116,9 @@ class Cubie:
 
                         for x in range(theta_inc):
                             for i in range(8):
-                                center_pieces[1][i] = x_rot(center_pieces[1][i], theta)
+                                self.center_pieces[1][i] = x_rot(self.center_pieces[1][i], theta)
 
-                            for axis in edge_pieces:
+                            for axis in self.edge_pieces:
                                 for piece in axis:
                                     flag = True
                                     for vertex in piece:
@@ -1125,7 +1129,7 @@ class Cubie:
                                         for i in range(8):
                                             piece[i] = x_rot(piece[i], theta)
 
-                            for piece in corner_pieces:
+                            for piece in self.corner_pieces:
                                 flag = True
                                 for vertex in piece:
                                     if vertex[0] > 0:
@@ -1145,9 +1149,9 @@ class Cubie:
 
                         for x in range(theta_inc):
                             for i in range(8):
-                                center_pieces[2][i] = z_rot(center_pieces[2][i], theta)
+                                self.center_pieces[2][i] = z_rot(self.center_pieces[2][i], theta)
 
-                            for axis in edge_pieces:
+                            for axis in self.edge_pieces:
                                 for piece in axis:
                                     flag = True
                                     for vertex in piece:
@@ -1158,7 +1162,7 @@ class Cubie:
                                         for i in range(8):
                                             piece[i] = z_rot(piece[i], theta)
 
-                            for piece in corner_pieces:
+                            for piece in self.corner_pieces:
                                 flag = True
                                 for vertex in piece:
                                     if vertex[2] > 0:
@@ -1178,9 +1182,9 @@ class Cubie:
 
                         for x in range(theta_inc):
                             for i in range(8):
-                                center_pieces[3][i] = x_rot(center_pieces[3][i], theta)
+                                self.center_pieces[3][i] = x_rot(self.center_pieces[3][i], theta)
 
-                            for axis in edge_pieces:
+                            for axis in self.edge_pieces:
                                 for piece in axis:
                                     flag = True
                                     for vertex in piece:
@@ -1191,7 +1195,7 @@ class Cubie:
                                         for i in range(8):
                                             piece[i] = x_rot(piece[i], theta)
 
-                            for piece in corner_pieces:
+                            for piece in self.corner_pieces:
                                 flag = True
                                 for vertex in piece:
                                     if vertex[0] < 0:
@@ -1211,9 +1215,9 @@ class Cubie:
 
                         for x in range(theta_inc):
                             for i in range(8):
-                                center_pieces[4][i] = y_rot(center_pieces[4][i], theta)
+                                self.center_pieces[4][i] = y_rot(self.center_pieces[4][i], theta)
 
-                            for axis in edge_pieces:
+                            for axis in self.edge_pieces:
                                 for piece in axis:
                                     flag = True
                                     for vertex in piece:
@@ -1224,7 +1228,7 @@ class Cubie:
                                         for i in range(8):
                                             piece[i] = y_rot(piece[i], theta)
 
-                            for piece in corner_pieces:
+                            for piece in self.corner_pieces:
                                 flag = True
                                 for vertex in piece:
                                     if vertex[1] < 0:
@@ -1244,9 +1248,9 @@ class Cubie:
 
                         for x in range(theta_inc):
                             for i in range(8):
-                                center_pieces[5][i] = y_rot(center_pieces[5][i], theta)
+                                self.center_pieces[5][i] = y_rot(self.center_pieces[5][i], theta)
 
-                            for axis in edge_pieces:
+                            for axis in self.edge_pieces:
                                 for piece in axis:
                                     flag = True
                                     for vertex in piece:
@@ -1257,7 +1261,7 @@ class Cubie:
                                         for i in range(8):
                                             piece[i] = y_rot(piece[i], theta)
 
-                            for piece in corner_pieces:
+                            for piece in self.corner_pieces:
                                 flag = True
                                 for vertex in piece:
                                     if vertex[1] > 0:
