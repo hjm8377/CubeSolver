@@ -115,6 +115,7 @@ def start_(window, btn):
 
     def exit_(num):
         num[0] = 0
+        btn_next["state"] = DISABLED
         btn["state"] = NORMAL
         top.destroy()
 
