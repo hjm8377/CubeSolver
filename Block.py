@@ -176,4 +176,3 @@ def FRU_w(cube):
         return 'U'
     else:
         exit('FRU_error')
-
