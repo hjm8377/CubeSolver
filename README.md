@@ -1,6 +1,6 @@
 # CubeSolver
 CubeSolver is a program that that can learn you how to solve a cube written in python.
-PyOpenCV was used for color recognition and OpenGL was used for 3D cube.
+PyOpenCV was used for color recognition and OpenGL was used for 3D cube.   
 Used Beginner's method and CFOP method to formulate a solving algorithm.
 
 ### Environment
@@ -27,3 +27,21 @@ This program utilizes the following Python modules:
 Python 3.x:
 
 ```pip3 install opencv-python PyOpenGL PyOpenGL_accelerate pygame numpy ```
+
+
+### Solving Progress
+#### Color Detection
+![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opencv%20capture.PNG)
+Cube color analyzing using OpenCV-Python
+
+#### Create Planar figure
+![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opencv%20planar.PNG)
+Create Cube's planar figure to take a look the color is well recognized. (It's not the complete planar figure)
+
+#### 3D Cube 
+![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opengl1.gif)   
+3D cube that let you know how to solve Rubik's cube by press right arrow on your keyboard is show up.(3D cube is made with PyOpenGL and rendered by Pygame)   
+The Program's name changes as you progress to show percentage of progress.
+
+![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opengl2.gif)   
+If you press left arrow on your keyboard, cube will show previous step.
