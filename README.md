@@ -42,3 +42,6 @@ Create Cube's planar figure to take a look the color is well recognized. (It's n
 ![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opengl1.gif)   
 3D cube that let you know how to solve Rubik's cube by press right arrow on your keyboard is show up.(3D cube is made with PyOpenGL and rendered by Pygame)   
 The Program's name changes as you progress to show percentage of progress.
+
+![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opengl2.gif)   
+If you press left arrow on your keyboard, cube will show previous step.
