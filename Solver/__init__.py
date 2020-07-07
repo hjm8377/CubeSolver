@@ -14,7 +14,9 @@ from Cube.Cube import print_cube
 # WhiteCross - FirstLayer - SecondLayer - YellowCross - YellowFace - ThirdLayer
 class CubeSolver:
     def __init__(self, cube):
+        # self.cube = Rotation.setface(cube)
         self.cube = cube
+        print(cube)
 
     @staticmethod
     def move_method(m, solution, cube):
@@ -117,29 +119,3 @@ class CubeSolver:
 def move_method(m, c):
     move = Rotation.Rotation()
     move.move(m, c)
-
-"""
-# CREATE CUBE 3 DIMENSION LIST 6*3*3
-CUBE = [[[] for _ in range(3)]for _ in range(6)]
-
-# init CUBE
-s = 'yrgobw'    # U L F R B D   0 1 2 3 4 5
-for i in range(6):
-    for j in range(3):
-        for _ in range(3):
-            CUBE[i][j].append(s[i])
-
-cube = copy.deepcopy(CUBE)
-
-scramble3 = ["R", "U", "R'", "U'", "X"]
-
-for m in scramble3:
-    move_method(m, cube)
-
-print_cube(cube)
-
-solver = CubeSolver(cube)
-solution, cube, step_sol = solver.solution()
-
-print_cube(cube)
-"""

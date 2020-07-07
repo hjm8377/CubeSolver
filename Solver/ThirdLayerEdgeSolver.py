@@ -25,25 +25,25 @@ class ThirdLayerEdgeSolver:
 
     @staticmethod
     def check_U_a_b(cube):
-        if cube[4][0][1] == cube[3][1][1]:
+        if cube[4][0][1] == cube[3][0][2]:
             return 'Ua'
-        elif cube[4][0][1] == cube[1][1][1]:
+        elif cube[4][0][1] == cube[1][0][2]:
             return 'Ub'
 
     @staticmethod
     def check_H_Z(cube):
-        if cube[4][0][1] == cube[2][1][1]:
+        if cube[4][0][1] == cube[1][0][2]:
             return 'H'
-        elif cube[4][0][1] == cube[3][1][1] or cube[4][0][1] == cube[1][1][1]:
+        elif cube[4][0][1] == cube[3][0][2] or cube[4][0][1] == cube[1][0][2]:
             return 'Z'
 
     @staticmethod
     def check_Z(cube):
         # right
-        if cube[4][0][1] == cube[3][1][1]:
+        if cube[4][0][1] == cube[3][0][2]:
             return 1
         # wrong
-        elif cube[4][0][1] == cube[1][1][1]:
+        elif cube[4][0][1] == cube[1][0][2]:
             return 0
 
     def step(self, perm):
@@ -62,16 +62,16 @@ class ThirdLayerEdgeSolver:
             check = self.check_third_layer(cube)
             # 맞은 줄 위치
             if check == 4:
-                self.move_method("Y", solution, cube)
-                self.move_method("Y", solution, cube)
+                self.move_method("U", solution, cube)
+                self.move_method("U", solution, cube)
             elif check == 1:
-                self.move_method("Y", solution, cube)
-                self.move_method("Y", solution, cube)
-                self.move_method("Y", solution, cube)
+                self.move_method("U", solution, cube)
+                self.move_method("U", solution, cube)
+                self.move_method("U", solution, cube)
             elif check == 2:
                 pass
             elif check == 3:
-                self.move_method("Y", solution, cube)
+                self.move_method("U", solution, cube)
 
             # Ua / Ub 판단
             if self.check_U_a_b(cube) == 'Ua':
@@ -92,9 +92,12 @@ class ThirdLayerEdgeSolver:
                     for m in self.step('Z'):
                         self.move_method(m, solution, cube)
                 else:
-                    self.move_method("Y", solution, cube)
+                    self.move_method("U", solution, cube)
                     for m in self.step('Z'):
                         self.move_method(m, solution, cube)
+
+        while cube[1][0][1] != cube[1][1][1]:
+            self.move_method("U", solution, cube)
 
         # print("finish third layer corner")
 
