@@ -96,3 +96,4 @@ def print_planar(cube):
         print("     ", end="    ")
         print(a, b, c)
     print("")
+
