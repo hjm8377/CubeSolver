@@ -16,7 +16,7 @@ moves = ''
 
 
 class Cubie:
-    def __init__(self, COLOR=None, mode='free', args=None, steps=None):
+    def __init__(self, COLOR=None, mode='free', args=None, steps=None, s=10):
         pygame.init()
         pygame.font.init()
         self.width = 800
@@ -24,6 +24,7 @@ class Cubie:
         self.size = (self.width, self.height)
         self.COLOR = copy.deepcopy(COLOR)
         self.mode = mode
+        self.inc = s
         self.running = True
         self.corner_pieces = copy.deepcopy(corner_pieces)
         self.edge_pieces = copy.deepcopy(edge_pieces)
@@ -483,7 +484,7 @@ class Cubie:
             pygame.display.flip()
 
         while True and self.running is True:
-            theta_inc = 10
+            theta_inc = self.inc
             theta = pi / 2 / theta_inc
 
             for event in pygame.event.get():
@@ -1055,7 +1056,7 @@ class Cubie:
 
                 if (event.type is pygame.KEYUP) and (self.flag == 0):
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
-                        theta_inc = 10
+                        theta_inc = self.inc
                         theta = pi / 2 / theta_inc
 
                 # 키보드가 눌릴 때 & mode가 free일 때
