@@ -4,4 +4,6 @@ __pycache__
 *.iml
 /.idea
 *.mp4
-
+*.ini
+/.ini
+/.Test
