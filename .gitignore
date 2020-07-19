@@ -5,5 +5,4 @@ __pycache__
 /.idea
 *.mp4
 *.ini
-/.ini
-/.Test
+/Test/
