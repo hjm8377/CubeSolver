@@ -152,7 +152,7 @@ def init(window):
         ilabel.config(image=ilabel.img)
         ilabel.grid(row=0, column=0)
 
-        nlabel = Label(info, text='Rubik\'s Cube Sover V1.3', font='namun_gothic')
+        nlabel = Label(info, text='Rubik\'s Cube Sover V1.35', font='namun_gothic')
         nlabel.grid(row=0, column=1)
 
         slabel = Label(info, text=sText[language] + '\n' + Made[language])
