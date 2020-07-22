@@ -7,7 +7,7 @@ Used Beginner's method and CFOP method to formulate a solving algorithm.
 #### 3D Rubik's Cube of this Project was made by reference to [PyCube](https://github.com/mtking2/PyCube)
 
 --------------------------------
-### Environment
+## Environment
 
 [Pycharm 2020.1](https://www.jetbrains.com/pycharm/)
 
@@ -17,7 +17,7 @@ Used Beginner's method and CFOP method to formulate a solving algorithm.
 
 --------------------------------
 
-### Dependencies
+## Dependencies
 This program utilizes the following Python modules:
 
 [OpenCV-Python](https://github.com/opencv/opencv)
@@ -37,16 +37,16 @@ Python 3.x:
 --------------------------------
 
 
-### Solving Progress
-#### Color Detection
+## Solving Progress
+### Color Detection
 ![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opencvcapture.png)
 Cube color analyzing using OpenCV-Python
 
-#### Create Planar figure
+### Create Planar figure
 ![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opencvplanar.PNG)
 Create Cube's planar figure to take a look the color is well recognized. (It's not the complete planar figure)
 
-#### 3D Cube 
+### 3D Cube 
 ![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opengl1.gif)   
 3D cube that let you know how to solve Rubik's cube by press right arrow on your keyboard is show up.(3D cube is made with PyOpenGL and rendered by Pygame)   
 The Program's name changes as you progress to show percentage of progress.
