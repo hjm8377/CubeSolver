@@ -42,6 +42,7 @@ def init(window):
     global language
 
     window.iconbitmap(default="src/cube.ico")
+    window.geometry("500x250")
     frame_button = Frame(window, bg="white")
     frame_button.pack(side="bottom")
 
