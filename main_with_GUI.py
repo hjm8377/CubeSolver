@@ -210,7 +210,7 @@ def manualwindow(window, origin_top, btn):
     origin_top.destroy()
     manual = Toplevel(window)
     manual.title(Manual[language])
-    manual.geometry("630x510")
+    manual.geometry("655x540")
     # manual.resizable(False, False)
     manual.grab_set()
     manual.protocol("WM_DELETE_WINDOW", btnNorm())
@@ -261,17 +261,17 @@ def manualwindow(window, origin_top, btn):
                 self.btn5 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[4]], state=DISABLED)
                 self.btn5.grid(row=1, column=1)
                 self.btn6 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[5]],
-                                   command=lambda: self.btn_clicked(self.btn6, 4))
+                                   command=lambda: self.btn_clicked(self.btn6, 5))
                 self.btn6.grid(row=1, column=2)
 
                 self.btn7 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[6]],
-                                   command=lambda: self.btn_clicked(self.btn7, 5))
+                                   command=lambda: self.btn_clicked(self.btn7, 6))
                 self.btn7.grid(row=2, column=0)
                 self.btn8 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[7]],
-                                   command=lambda: self.btn_clicked(self.btn8, 6))
+                                   command=lambda: self.btn_clicked(self.btn8, 7))
                 self.btn8.grid(row=2, column=1)
                 self.btn9 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[8]],
-                                   command=lambda: self.btn_clicked(self.btn9, 7))
+                                   command=lambda: self.btn_clicked(self.btn9, 8))
                 self.btn9.grid(row=2, column=2)
             else:
                 p_frame = Frame(manual, width=30, height=15)
@@ -279,9 +279,11 @@ def manualwindow(window, origin_top, btn):
             return p_frame
     fp = Planar(0)
     first = fp.planar()
+    first.config(padx=10)
     first.grid(row=0, column=1)
     sp = Planar(1)
     second = sp.planar()
+    second.config(pady=10)
     second.grid(row=1, column=0)
     thp = Planar(2)
     third = thp.planar()
@@ -291,6 +293,7 @@ def manualwindow(window, origin_top, btn):
     fourth.grid(row=1, column=2)
     fifp = Planar(4)
     fifth = fifp.planar()
+    fifth.config(padx=10)
     fifth.grid(row=1, column=3)
     sip = Planar(5)
     sixth = sip.planar()
