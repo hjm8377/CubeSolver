@@ -59,8 +59,8 @@ Language = {
 }
 
 Solving = {
-    'English': 'Solving',
-    'Korean': '솔빙'
+    'English': 'Solving Mode',
+    'Korean': '솔빙 모드'
 }
 
 Complete = {
@@ -79,8 +79,8 @@ Warning_ = {
 }
 
 lang_warning = {
-    'English': '언어 변경을 완전히 적용하려면 프로그램을 재시작 해야합니다.',
-    'Korean': 'You must restart the program to apply the language change.'
+    'English': 'You must restart the program to apply the language change.',
+    'Korean': '언어 변경을 완전히 적용하려면 프로그램을 재시작 해야합니다.'
 }
 
 howText = {
@@ -103,4 +103,14 @@ Homepage = {
 Made = {
     'English': 'made by J.M. Heo',
     'Korean': '제작: 허정민'
+}
+
+freeMode = {
+    'English': 'Free Mode',
+    'Korean': '자유 모드'
+}
+
+Manual = {
+    'English': 'Manual Mode',
+    'Korean': '수동 모드'
 }
