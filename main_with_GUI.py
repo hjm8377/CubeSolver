@@ -22,6 +22,7 @@ import webbrowser
 
 solution = []
 full = [[[] for _ in range(3)] for _ in range(6)]
+cap = cv2.VideoCapture(0)
 inifile = './ini/setting.ini'
 
 if not inifile:
@@ -34,7 +35,7 @@ setting_speed = parser.getint('settings', 'rotation_speed')
 rotation_speed = abs(setting_speed - 99)
 language = parser.get('settings', 'language')
 firstlang = parser.get('settings', 'language')
-print(setting_speed, rotation_speed, language)
+# print(setting_speed, rotation_speed, language)
 
 
 def init(window):
@@ -74,7 +75,7 @@ def init(window):
                 parser.write(f)
 
             if firstlang != language:
-                messagebox.showwarning(Warning_[language], lang_warning[language])
+                messagebox.showwarning(Warning_[firstlang], lang_warning[firstlang])
                 setting.destroy()
             else:
                 setting.destroy()
@@ -150,7 +151,7 @@ def init(window):
         ilabel.config(image=ilabel.img)
         ilabel.grid(row=0, column=0)
 
-        nlabel = Label(info, text='Rubik\'s Cube Sover', font='namun_gothic')
+        nlabel = Label(info, text='Rubik\'s Cube Sover V1.3', font='namun_gothic')
         nlabel.grid(row=0, column=1)
 
         slabel = Label(info, text=sText[language] + '\n' + Made[language])
@@ -181,16 +182,16 @@ def init(window):
 
     window.config(menu=menubar)
 
-    btn_start = Button(frame_button, width=10, text=Solving[language], fg="green", bg="white", relief="raised", overrelief="flat",
-                       command=lambda: start_(window, btn_start))
+    btn_start = Button(frame_button, width=10, text=Solving[language], fg="green", bg="white", relief="raised",
+                       overrelief="flat", command=lambda: start_(window, btn_start))
     btn_start.grid(row=0, column=0)
 
-    # btn_free = Button(frame_button, width=10, text="free mode", fg="blue", bg="white", relief="raised", overrelief="flat",
-                      # command=lambda: cube_graphic())
-    # btn_free.grid(row=0, column=1)
+    btn_free = Button(frame_button, width=10, text=freeMode[language], fg="blue", bg="white", relief="raised",
+                      overrelief="flat", command=lambda: cube_graphic())
+    btn_free.grid(row=0, column=1)
 
-    btn_exit = Button(frame_button, width=10, text=Exit[language], fg="red", bg="white", relief="raised", overrelief="flat",
-                      command=exit)
+    btn_exit = Button(frame_button, width=10, text=Exit[language], fg="red", bg="white", relief="raised",
+                      overrelief="flat", command=exit)
     btn_exit.grid(row=0, column=2, sticky="w")
 
     label_text = "Rubik's cube solver"
@@ -199,6 +200,144 @@ def init(window):
     label.config(image=label.img, compound='left')
     label.config(font=('namun_gothic', 18, 'bold'))
     label.pack(side="top")
+
+
+def manualwindow(window, origin_top, btn):
+
+    def btnNorm():
+        btn['state'] = NORMAL
+    cube_color = []
+    origin_top.destroy()
+    manual = Toplevel(window)
+    manual.title(Manual[language])
+    manual.geometry("630x510")
+    # manual.resizable(False, False)
+    manual.grab_set()
+    manual.protocol("WM_DELETE_WINDOW", btnNorm())
+
+    class Planar:
+        def __init__(self, center):
+            self.cnt = [center for _ in range(9)]
+            self.btn1 = Button()
+            self.btn2 = Button()
+            self.btn3 = Button()
+            self.btn4 = Button()
+            self.btn5 = Button()
+            self.btn6 = Button()
+            self.btn7 = Button()
+            self.btn8 = Button()
+            self.btn9 = Button()
+            self.color = ['yellow', 'red', 'green', 'orange', 'blue', 'white', None]
+            self.color_str = ['y', 'r', 'g', 'o', 'b', 'w']
+            self.color_arr = [self.color_str[self.cnt[0]] for _ in range(9)]
+
+        def btn_clicked(self, btn, num):
+            self.cnt[num] = (self.cnt[num] + 1) % 6
+            btn.config(bg=self.color[self.cnt[num]])
+            self.color_arr[num] = self.color_str[self.cnt[num]]
+            print(self.color_arr)
+
+        def planar(self):
+            width = 6
+            height = 3
+            color = self.color
+            color.pop()
+
+            if color is not None:
+                p_frame = Frame(manual, width=30, height=15)
+                self.btn1 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[0]],
+                                   command=lambda: self.btn_clicked(self.btn1, 0))
+                self.btn1.grid(row=0, column=0)
+                self.btn2 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[1]],
+                                   command=lambda: self.btn_clicked(self.btn2, 1))
+                self.btn2.grid(row=0, column=1)
+                self.btn3 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[2]],
+                                   command=lambda: self.btn_clicked(self.btn3, 2))
+                self.btn3.grid(row=0, column=2)
+
+                self.btn4 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[3]],
+                                   command=lambda: self.btn_clicked(self.btn4, 3))
+                self.btn4.grid(row=1, column=0)
+                self.btn5 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[4]], state=DISABLED)
+                self.btn5.grid(row=1, column=1)
+                self.btn6 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[5]],
+                                   command=lambda: self.btn_clicked(self.btn6, 4))
+                self.btn6.grid(row=1, column=2)
+
+                self.btn7 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[6]],
+                                   command=lambda: self.btn_clicked(self.btn7, 5))
+                self.btn7.grid(row=2, column=0)
+                self.btn8 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[7]],
+                                   command=lambda: self.btn_clicked(self.btn8, 6))
+                self.btn8.grid(row=2, column=1)
+                self.btn9 = Button(p_frame, width=width, height=height, bg=self.color[self.cnt[8]],
+                                   command=lambda: self.btn_clicked(self.btn9, 7))
+                self.btn9.grid(row=2, column=2)
+            else:
+                p_frame = Frame(manual, width=30, height=15)
+
+            return p_frame
+    fp = Planar(0)
+    first = fp.planar()
+    first.grid(row=0, column=1)
+    sp = Planar(1)
+    second = sp.planar()
+    second.grid(row=1, column=0)
+    thp = Planar(2)
+    third = thp.planar()
+    third.grid(row=1, column=1)
+    fop = Planar(3)
+    fourth = fop.planar()
+    fourth.grid(row=1, column=2)
+    fifp = Planar(4)
+    fifth = fifp.planar()
+    fifth.grid(row=1, column=3)
+    sip = Planar(5)
+    sixth = sip.planar()
+    sixth.grid(row=2, column=1)
+
+    def reshape(arr, column, row):
+        cnt = 0
+        tmp = [[[] for _ in range(3)] for _ in range(3)]
+        origin_column = len(arr)
+        origin_row = len(arr[0])
+        if not origin_column * origin_row == column * row:
+            raise Error
+        else:
+            for i in range(column):
+                for j in range(row):
+                    tmp[i][j] = arr[cnt]
+                    if cnt != 8:
+                        cnt += 1
+        return tmp
+
+    def complete():
+        procs = []
+        cube_color.append(reshape(fp.color_arr, 3, 3))
+        cube_color.append(reshape(sp.color_arr, 3, 3))
+        cube_color.append(reshape(thp.color_arr, 3, 3))
+        cube_color.append(reshape(fop.color_arr, 3, 3))
+        cube_color.append(reshape(fifp.color_arr, 3, 3))
+        cube_color.append(reshape(sip.color_arr, 3, 3))
+
+        steps = solution_method(cube_color)
+        CUBIE = Cubie(cube_color, 'solving', solution, steps, rotation_speed)
+        proc_graph = multiprocessing.Process(target=CUBIE.run())
+        procs.append(proc_graph)
+        proc_graph.start()
+        proc_graph.join()
+
+    def cancel(m):
+        global cap
+        m.destroy()
+        cap.release()
+
+    f = Frame(manual)
+    f.grid(row=2, column=3)
+    btn_can = Button(f, text=Cancel[language], fg='red', command=lambda: cancel(manual))
+    btn_can.pack(side='right')
+    btn_com = Button(f, text=Complete[language], fg='green', command=lambda: complete())
+    btn_com.pack(side='right')
 
 
 def start_(window, btn):
@@ -273,6 +412,7 @@ def start_(window, btn):
         num[0] = 0
         btn_next["state"] = DISABLED
         btn["state"] = NORMAL
+        cap.release()
         top.destroy()
 
     def exit_graph(num, sol, steps):
@@ -303,18 +443,22 @@ def start_(window, btn):
     frame_btn = Frame(top, bg="white")
     frame_btn.grid(row=1)
 
-    btn_prev = Button(frame_btn, width=10, text=Previous[language], fg="blue", bg="white", relief="raised", overrelief="flat",
-                      command=lambda: prev(k, CUBE))
+    btn_prev = Button(frame_btn, width=10, text=Previous[language], fg="blue", bg="white", relief="raised",
+                      overrelief="flat", command=lambda: prev(k, CUBE))
     btn_prev.grid(row=0, column=0)
 
-    btn_next = Button(frame_btn, width=10, text=Next[language], fg="green", bg="white", relief="raised", overrelief="flat",
-                      command=lambda: next_(k, CUBE, c))
+    btn_next = Button(frame_btn, width=10, text=Next[language], fg="green", bg="white", relief="raised",
+                      overrelief="flat", command=lambda: next_(k, CUBE, c))
     btn_next.grid(row=0, column=1)
     # top.bind("<Key>", lambda: next_(k, CUBE, c))
 
-    btn_exit = Button(frame_btn, width=10, text=Exit[language], fg="red", bg="white", relief="raised", overrelief="flat",
-                      command=lambda: exit_(k))
+    btn_exit = Button(frame_btn, width=10, text=Exit[language], fg="red", bg="white", relief="raised",
+                      overrelief="flat", command=lambda: exit_(k))
     btn_exit.grid(row=0, column=2, sticky="w")
+
+    btn_manual = Button(frame_btn, width=10, text=Manual[language], fg="black", bg="white", relief="raised",
+                        overrelief="flat", command=lambda: manualwindow(window, top, btn))
+    btn_manual.grid(row=0, column=3)
 
     lmain = Label(frame_image)
     lmain.grid(row=0, column=0)
@@ -351,7 +495,8 @@ def solution_method(z):
 
 
 def cube_graphic():
-    c = Cubie()
+    global rotation_speed
+    c = Cubie(mode='free', s=rotation_speed)
     c.run()
 
 
