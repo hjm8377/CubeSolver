@@ -4,8 +4,8 @@ PyOpenCV was used for color recognition and OpenGL was used for 3D cube.
 Used Beginner's method and CFOP method to formulate a solving algorithm.
 
 
-#### 3D Rubik's Cube of this Project was made by reference to [PyCube](https://github.com/mtking2/PyCube)
-
+<!--#### 3D Rubik's Cube of this Project was made by reference to [PyCube](https://github.com/mtking2/PyCube)
+-->
 --------------------------------
 ## Environment
 
