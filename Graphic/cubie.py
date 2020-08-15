@@ -1077,8 +1077,10 @@ class Cubie:
 
                     if event.key is pygame.K_f:     # f
                         if pygame.key.get_mods() & KMOD_SHIFT:  # 쉬프트와 같이 입력 (대문자)
+                            print('F')
                             theta *= -1
                         else:   # 소문자
+                            print('f')
                             theta *= 1
 
                         for x in range(theta_inc):
@@ -1111,8 +1113,10 @@ class Cubie:
                     if event.key == pygame.K_l:
                         if pygame.key.get_mods() & KMOD_SHIFT:
                             theta *= 1
+                            print('L')
                         else:
                             theta *= -1
+                            print('l')
 
                         for x in range(theta_inc):
                             for i in range(8):
@@ -1144,8 +1148,10 @@ class Cubie:
                     if event.key == pygame.K_b:
                         if pygame.key.get_mods() & KMOD_SHIFT:
                             theta *= 1
+                            print('B')
                         else:
                             theta *= -1
+                            print('b')
 
                         for x in range(theta_inc):
                             for i in range(8):
@@ -1177,8 +1183,10 @@ class Cubie:
                     if event.key == pygame.K_r:
                         if pygame.key.get_mods() & KMOD_SHIFT:
                             theta *= -1
+                            print('R')
                         else:
                             theta *= 1
+                            print('r')
 
                         for x in range(theta_inc):
                             for i in range(8):
@@ -1210,8 +1218,10 @@ class Cubie:
                     if event.key == pygame.K_u:
                         if pygame.key.get_mods() & KMOD_SHIFT:
                             theta *= -1
+                            print('U')
                         else:
                             theta *= 1
+                            print('u')
 
                         for x in range(theta_inc):
                             for i in range(8):
@@ -1243,8 +1253,10 @@ class Cubie:
                     if event.key == pygame.K_d:
                         if pygame.key.get_mods() & KMOD_SHIFT:
                             theta *= 1
+                            print('D')
                         else:
                             theta *= -1
+                            print('d')
 
                         for x in range(theta_inc):
                             for i in range(8):
