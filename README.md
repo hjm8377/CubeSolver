@@ -6,6 +6,8 @@ Used Beginner's method and CFOP method to formulate a solving algorithm.
 
 <!--#### 3D Rubik's Cube of this Project was made by reference to [PyCube](https://github.com/mtking2/PyCube)
 -->
+
+![Capsule - Project Video](https://www.youtube.com/watch?v=KLb918FLVjU)
 --------------------------------
 ## Environment
 
