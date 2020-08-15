@@ -8,6 +8,7 @@ Used Beginner's method and CFOP method to formulate a solving algorithm.
 -->
 
 [Project Video (youtube) ](https://www.youtube.com/watch?v=KLb918FLVjU)
+
 --------------------------------
 ## Environment
 
