@@ -1,7 +1,9 @@
+[English](https://github.com/hjm8377/CubeSolver/blob/master/README.en.md) 👈
+
 # CubeSolver
-CubeSolver is a program that that can learn you how to solve a cube written in python.
-PyOpenCV was used for color recognition and OpenGL was used for 3D cube.   
-Used Beginner's method and CFOP method to formulate a solving algorithm.
+CubeSolver는 큐브를 어떻게 맞추는지 알려주는 프로그램입니다. 
+파이썬으로 작성되었고, 색 인식에 pyopencv가, 3D큐브 구현에 OpenGL이 사용되었습니다.
+큐브 공식은 초보공식과 CFOP공식을 혼용했습니다.
 
 
 <!--#### 3D Rubik's Cube of this Project was made by reference to [PyCube](https://github.com/mtking2/PyCube)
@@ -43,17 +45,16 @@ Python 3.x:
 ## Solving Progress
 ### Color Detection
 ![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opencvcapture.png)
-Cube color analyzing using OpenCV-Python
+OpenCV-Python을 이용하여 큐브 색 인식
 
 ### Create Planar figure
 ![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opencvplanar.PNG)
-Create Cube's planar figure to take a look the color is well recognized. (It's not the complete planar figure)
+색이 잘 인식 되었는지 확인하기 위해 큐브의 전개도 만들기(잘 정리된 전개도는 아님)
 
 ### 3D Cube 
-![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opengl1.gif)   
-3D cube that let you know how to solve Rubik's cube by press right arrow on your keyboard is show up.(3D cube is made with PyOpenGL and rendered by Pygame)   
-The Program's name changes as you progress to show percentage of progress.
+![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opengl1.gif)  
+오른쪽 방향키를 누르면 3D 큐브가 큐브 맞추는 방법을 알려줍니다. (3D 큐브는 PyOpenGL로 만들어졌고, Pygame으로 렌더링 되었습니다)
+프로그램이름이 바뀌면서 진행 정도를 보여줍니다.
 
 ![Alt text](https://github.com/hjm8377/CubeSolver/blob/master/resource/opengl2.gif)   
-If you press left arrow on your keyboard, cube will show previous step.
-
+왼쪽 방향키를 누르면 큐브는 이전 단계를 보여줍니다.
