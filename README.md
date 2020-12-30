@@ -6,8 +6,8 @@ CubeSolver는 큐브를 어떻게 맞추는지 알려주는 프로그램입니�
 큐브 공식은 초보공식과 CFOP공식을 혼용했습니다.
 
 
-<!--#### 3D Rubik's Cube of this Project was made by reference to [PyCube](https://github.com/mtking2/PyCube)
--->
+이 프로젝트의 3D 루빅스 큐브는 [PyCube](https://github.com/mtking2/PyCube) 를 참고했습니다.
+
 
 [Project Video (youtube) ](https://www.youtube.com/watch?v=KLb918FLVjU)
 
@@ -23,7 +23,7 @@ CubeSolver는 큐브를 어떻게 맞추는지 알려주는 프로그램입니�
 --------------------------------
 
 ## Dependencies
-This program utilizes the following Python modules:
+이 프로그램은 다음 파이썬 모듈을 활용합니다:
 
 [OpenCV-Python](https://github.com/opencv/opencv)
 
